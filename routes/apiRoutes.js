@@ -1,10 +1,9 @@
 import express from "express";
-import { getResponseTest, getResponse } from "../controllers/apiController.js";
+import { getResponseTest, CalculateDistance } from "../controllers/apiController.js";
 
 const router = express.Router();
 
-router.get("/", getResponse);
+router.get("/:lat1/:lon1/:lat2/:lon2", CalculateDistance);
 router.get("/test", getResponseTest);
-
 
 export default router;
