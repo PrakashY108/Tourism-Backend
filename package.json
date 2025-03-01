@@ -1,0 +1,15 @@
+{
+  "name": "tourism-backend",
+  "version": "1.0.0",
+  "description": "Backend for tourism",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "node server.js"
+  },
+  "author": "Prakash",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
