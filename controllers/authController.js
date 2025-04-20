@@ -1,9 +1,9 @@
 import User from "../models/UserModel.js";
 import jwt from "jsonwebtoken";
 import { generateToken } from "../utils/generateToken.js";
-import OTP from "../models/otpModal.js";
+import OTP from "../models/OtpModel.js";
 import { transporter } from "../utils/mailTransporter.js";
-import Counter from "../models/counterModal.js";
+import Counter from "../models/CounterModel.js";
 
 const login = async (req, res) => {
   try {
