@@ -8,9 +8,9 @@ const router = express.Router();
 
 router.post("/login", validateFields(loginSchema), authController.login);
 router.post("/register", validateFields(registerSchema), authController.register);
+router.post("/reset-password", validateFields(resetPasswordSchema), authController.resetPassword);
+router.post("/verify-otp", validateFields(verifyOtpSchema), authController.VerifyOtp);
 router.post("/update-profile",validateUserToken, authController.updateProfile);
-router.post("/reset-password", validateFields(resetPasswordSchema),validateUserToken, authController.resetPassword);
-router.post("/verify-otp", validateFields(verifyOtpSchema),validateUserToken, authController.VerifyOtp);
 
 
 export default router;

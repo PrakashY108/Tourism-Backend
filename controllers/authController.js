@@ -108,25 +108,21 @@ const register = async (req, res) => {
           message: "OTP sent successfully via email!",
           otp: otp, // In prod, avoid sending OTP in response
           status: true,
-          user_id,
+          user: {
+            id: newUser._id,
+            user_id: newUser.user_id,
+            name: newUser.name,
+            email: newUser.email,
+            phone: newUser.phone,
+            role: newUser.role,
+            token: userToken,
+            is_verified: newUser.is_verified,
+            status: true,
+            fcm_token: newUser.fcm_token,
+            otp: otp,
+          },
         });
       }
-    });
-    res.status(201).json({
-      message: "Otp Sent on your Email.Please Verify Your Email",
-      user: {
-        id: newUser._id,
-        user_id: newUser.user_id,
-        name: newUser.name,
-        email: newUser.email,
-        phone: newUser.phone,
-        role: newUser.role,
-        token: userToken,
-        is_verified: newUser.is_verified,
-        status: true,
-        fcm_token: newUser.fcm_token,
-        otp: otp,
-      },
     });
   } catch (error) {
     res.status(500).json({
@@ -140,7 +136,7 @@ const register = async (req, res) => {
 const updateProfile = async (req, res) => {
   try {
     const { name, password, phone, role, fcm_token, user_id } = req.body;
-
+    console.log(user_id);
     const user = await User.findOne({ user_id: user_id });
 
     if (!user) {
@@ -183,11 +179,11 @@ const updateProfile = async (req, res) => {
 };
 
 const resetPassword = async (req, res) => {
-  const { user_id } = req.body;
+  const { email } = req.body;
 
   try {
-    const user = await User.findOne({ user_id: user_id });
-
+    const user = await User.findOne({ email });
+const user_id = user?.user_id
     if (!user) {
       return res.status(404).json({
         message: "User not found",
@@ -252,8 +248,9 @@ const VerifyOtp = async (req, res) => {
   const { user_id, otp, type } = req.body;
 
   try {
-    const userOtp = await OTP.findOne({ user_id, type });
-    console.log("typre", userOtp);
+    const userOtp = await OTP.findOne({ user_id:user_id, type })
+    .sort({ createdAt: -1 });
+    console.log("typre", userOtp,user_id);
 
     if (!userOtp) {
       return res.status(404).json({
@@ -267,7 +264,7 @@ const VerifyOtp = async (req, res) => {
       return res.status(400).json({
         message: "Invalid OTP",
         status: false,
-        userOtp,
+        user:userOtp.otp,
         otp,
       });
     }
